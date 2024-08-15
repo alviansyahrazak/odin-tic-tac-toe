@@ -5,8 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Odin Tic Tac Toe</title>
     <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="//code.iconify.design/1/1.0.6/iconify.min.js"></script>
   </head>
   <body>
+    <div class="container">
+      <header class="header">
+        <h1 class="header__title">tic-tac-toe.</h1>
+        <div class="header__action">
+          <button
+            class="header__btn-restart"
+            id="restart-button"
+            title="restart"
+          >
+            <span class="iconify" data-icon="mdi:restart"></span>
+          </button>
+        </div>
+      </header>
+
+      <main class="main">
+        <div class="gameboard" id="gameboard-display">
+          <div class="gameboard__cell" data-index="0"></div>
+          <div class="gameboard__cell" data-index="1"></div>
+          <div class="gameboard__cell" data-index="2"></div>
+          <div class="gameboard__cell" data-index="3"></div>
+          <div class="gameboard__cell" data-index="4"></div>
+          <div class="gameboard__cell" data-index="5"></div>
+          <div class="gameboard__cell" data-index="6"></div>
+          <div class="gameboard__cell" data-index="7"></div>
+          <div class="gameboard__cell" data-index="8"></div>
+        </div>
+        <div class="gameboard__message">
+          <p class="gameboard__message-text"></p>
+        </div>
+        <div class="player__info player__info-left">
+          <div class="player__info-name player__info-name--player-one">
+            <h3 class="player__info-name-text"></h3>
+          </div>
+          <div ></div>
+        </div>
+        <div class="player__info player__info-right">
+          <div class="player__info-name player__info-name--player-two">
+            <h3 class="player__info-name-text"></h3>
+          </div>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <p class="footer__text">
+          Made by
+          <a href="https://github.com/alviansyahrazak" class="footer__text-link"
+            ><span class="iconify" data-icon="mdi:github"></span> Alvi</a
+          >
+        </p>
+      </footer>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>
