@@ -107,8 +107,6 @@ const GameController = (() => {
 })();
 
 const DisplayController = (() => {
-  const getPlayer = GameController.getPlayer();
-  const getGameboard = Gameboard.getBoard();
   const cells = document.querySelectorAll('.gameboard__cell');
   const playerOneName = document.querySelector(
     '.player__info-name--player-one .player__info-name-text',
@@ -117,18 +115,20 @@ const DisplayController = (() => {
     '.player__info-name--player-two .player__info-name-text',
   );
 
-  const displayPlayerInfo = () => {
-    playerOneName.textContent = getPlayer.playerOne.name;
-    playerTwoName.textContent = getPlayer.playerTwo.name;
+  const updatePlayerName = () => {
+    const { playerOne, playerTwo } = GameController.getPlayer();
+    playerOneName.textContent = playerOne.name;
+    playerTwoName.textContent = playerTwo.name;
   };
 
   const renderBoard = () => {
+    const board = Gameboard.getBoard();
     cells.forEach((cell, index) => {
-      cell.textContent = getGameboard[index];
+      cell.textContent = board[index];
       cell.className = 'gameboard__cell';
-      if (getGameboard[index] === 'X') {
+      if (board[index] === 'X') {
         cell.classList.add('x-marker');
-      } else if (getGameboard[index] === 'O') {
+      } else if (board[index] === 'O') {
         cell.classList.add('o-marker');
       }
     });
@@ -152,17 +152,12 @@ const DisplayController = (() => {
     });
   };
 
-  return {
-    displayPlayerInfo,
-    renderBoard,
-    clickCellListeners,
-    restartGame,
+  const init = () => {
+    updatePlayerName();
+    renderBoard();
+    clickCellListeners();
+    restartGame();
   };
-})();
 
-document.addEventListener('DOMContentLoaded', () => {
-  DisplayController.displayPlayerInfo();
-  DisplayController.renderBoard();
-  DisplayController.clickCellListeners();
-  DisplayController.restartGame();
-});
+  init();
+})();
