@@ -81,7 +81,7 @@ html {
   grid-template-areas: 'header header header' 'player__info-left gameboard player__info-right' 'gameboard__message gameboard__message gameboard__message';
   align-items: center;
   justify-content: center;
-  gap: 4rem;
+  gap: 2.5rem;
 }
 
 .player__info-name {
@@ -120,12 +120,13 @@ html {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   border: none;
+  margin: auto;
   grid-area: gameboard;
 }
 
 .gameboard__cell {
-  width: 150px;
-  height: 150px;
+  width: 130px;
+  height: 130px;
   display: grid;
   font-size: 5em;
   font-weight: 700;
