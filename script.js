@@ -33,7 +33,6 @@ const GameController = (() => {
   const playerTwo = Player('Player 2', 'O');
   let currentPlayer = playerOne;
   let gameOver = false;
-  const message = document.querySelector('.gameboard__message-text');
 
   const winningCombinations = [
     [0, 1, 2],
@@ -55,7 +54,6 @@ const GameController = (() => {
 
   const switchPlayer = () => {
     currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
-    updateMessage(`It's your turn, ${currentPlayer.name}!`);
   };
 
   const checkWinner = (marker) => {
@@ -72,32 +70,25 @@ const GameController = (() => {
     if (!Gameboard.updateBoard(position, currentPlayer.marker)) return;
 
     if (checkWinner(currentPlayer.marker)) {
-      updateMessage(`Congratulations, ${currentPlayer.name}! You win! 🎉`);
       gameOver = true;
-      return;
+      return `Congratulations, ${currentPlayer.name}! You win! 🎉`;
     }
 
     if (ifTie()) {
-      updateMessage("It's a tie! No more moves left. 🤝");
       gameOver = true;
-      return;
+      return "It's a tie! No more moves left. 🤝";
     }
 
     switchPlayer();
-  };
-
-  const updateMessage = (text) => {
-    message.textContent = text;
+    return `It's your turn, ${currentPlayer.name}!`;
   };
 
   const resetGame = () => {
     gameOver = false;
     currentPlayer = playerOne;
-    updateMessage('');
     Gameboard.resetBoard();
+    return 'Player 1, Start Your Game!';
   };
-
-  updateMessage('Player 1, Start Your Game!');
 
   return {
     getPlayer,
@@ -108,17 +99,18 @@ const GameController = (() => {
 
 const DisplayController = (() => {
   const cells = document.querySelectorAll('.gameboard__cell');
-  const playerOneName = document.querySelector(
-    '.player__info-name--player-one .player__info-name-text',
-  );
-  const playerTwoName = document.querySelector(
-    '.player__info-name--player-two .player__info-name-text',
-  );
+  const playerOneName = document.querySelector('.player__info-name--player-one .player__info-name-text');
+  const playerTwoName = document.querySelector('.player__info-name--player-two .player__info-name-text');
+  const message = document.querySelector('.gameboard__message-text');
 
   const updatePlayerName = () => {
     const { playerOne, playerTwo } = GameController.getPlayer();
     playerOneName.textContent = playerOne.name;
     playerTwoName.textContent = playerTwo.name;
+  };
+
+  const updateMessage = (text) => {
+    message.textContent = text;
   };
 
   const renderBoard = () => {
@@ -138,7 +130,8 @@ const DisplayController = (() => {
     cells.forEach((cell) => {
       cell.addEventListener('click', () => {
         const position = cell.dataset.index;
-        GameController.playRound(position);
+        const roundResult = GameController.playRound(position);
+        if (roundResult) updateMessage(roundResult);
         renderBoard();
       });
     });
@@ -147,13 +140,15 @@ const DisplayController = (() => {
   const restartGame = () => {
     const restartBtn = document.getElementById('restart-button');
     restartBtn.addEventListener('click', () => {
-      GameController.resetGame();
+      const initialMessage = GameController.resetGame();
+      updateMessage(initialMessage);
       renderBoard();
     });
   };
 
   const init = () => {
     updatePlayerName();
+    updateMessage(GameController.resetGame());
     renderBoard();
     clickCellListeners();
     restartGame();
